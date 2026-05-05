@@ -6,21 +6,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # 1. Забираем твой код
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4 # Обновили до v4
 
       # 2. Ставим Flutter
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
 
-      # 3. Качаем библиотеки (Agora и др.)
+      # 3. Качаем библиотеки
       - run: flutter pub get
 
-      # 4. Собираем сам APK
+      # 4. Собираем APK
       - run: flutter build apk --release
 
-      # 5. Выкладываем готовый файл для скачивания
-      - uses: actions/upload-artifact@v3
+      # 5. Выкладываем файл (теперь через v4)
+      - uses: actions/upload-artifact@v4 # Вот здесь была ошибка, теперь v4
         with:
           name: Radio-Build
           path: build/app/outputs/flutter-apk/app-release.apk
