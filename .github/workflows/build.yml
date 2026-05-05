@@ -1,26 +1,37 @@
 name: Build APK
 on: [push]
 
+# Добавляем переменную, чтобы убрать предупреждение о Node.js
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # 1. Забираем твой код
-      - uses: actions/checkout@v4 # Обновили до v4
+      - uses: actions/checkout@v4
 
-      # 2. Ставим Flutter
+      # Устанавливаем Java (нужна для сборки Android)
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
 
-      # 3. Качаем библиотеки
-      - run: flutter pub get
+      # Если твои файлы лежат в подпапке, например 'helloworld', 
+      # добавь в команды ниже: working-directory: helloworld
+      
+      - name: Install Dependencies
+        run: flutter pub get
 
-      # 4. Собираем APK
-      - run: flutter build apk --release
+      - name: Build APK
+        run: flutter build apk --release
 
-      # 5. Выкладываем файл (теперь через v4)
-      - uses: actions/upload-artifact@v4 # Вот здесь была ошибка, теперь v4
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
         with:
           name: Radio-Build
           path: build/app/outputs/flutter-apk/app-release.apk
