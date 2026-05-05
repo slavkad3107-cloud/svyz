@@ -1,0 +1,26 @@
+name: Build APK
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Забираем твой код
+      - uses: actions/checkout@v3
+
+      # 2. Ставим Flutter
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      # 3. Качаем библиотеки (Agora и др.)
+      - run: flutter pub get
+
+      # 4. Собираем сам APK
+      - run: flutter build apk --release
+
+      # 5. Выкладываем готовый файл для скачивания
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Radio-Build
+          path: build/app/outputs/flutter-apk/app-release.apk
