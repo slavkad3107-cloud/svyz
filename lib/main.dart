@@ -3,7 +3,7 @@ import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:typed_data';
 
-const String appId = "7db3907e5c6a46139446d6541f488661";
+const String appId = "a0533352edd84be1bb094224354b68f4";
 
 void main() => runApp(const MaterialApp(home: RoomSelection()));
 
